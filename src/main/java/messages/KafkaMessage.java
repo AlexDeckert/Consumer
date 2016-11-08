@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Created by nicob on 02.11.2016.
  */
 
-public class KafkaMessage {
+public class KafkaMessage implements Message {
     @JsonProperty("value")
     private Object value;
     private boolean booleanValue;
@@ -48,7 +48,7 @@ public class KafkaMessage {
 
     @Override
     public String toString() {
-        return "Message: " + itemName + "; value: " + value + "; booleanValue: " + booleanValue + "; intValue: " + intValue +
+        return "Kafka-Message: " + itemName + "; value: " + value + "; booleanValue: " + booleanValue + "; intValue: " + intValue +
                 "; doubleValue: " + doubleValue + "; status: " + status + "; timeStamp: " + timeStamp;
     }
 }

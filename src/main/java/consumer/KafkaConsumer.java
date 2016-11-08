@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import converter.JsonConverter;
 import data.Constants;
 
+import database.DatabaseSender;
 import kafka.consumer.ConsumerConfig;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
@@ -70,7 +71,8 @@ public class KafkaConsumer implements Runnable {
                 for (MessageAndMetadata<byte[], byte[]> messageAndMetadata : messageStream) {
                     String jsonString = new String(messageAndMetadata.message());
                     KafkaMessage message = JsonConverter.getInstance().getKafkaMessage(jsonString);
-//                    message.setValue(message.getValue());
+                    message.setValue(message.getValue());
+                    //DatabaseSender.getDatabaseSender().insertMessage(message);
                     System.out.println(message.toString());
 //                    FiniteMachine.handleMessage(sm, message);
                 }

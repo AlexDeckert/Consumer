@@ -9,10 +9,9 @@ import data.Constants;
  */
 
 public class Consumer {
-
     public static void main(String[] args) {
-        KafkaConsumer.getKafkaConsumer(Constants.KAFKA_ADDRESS, Constants.KAFKA_TOPIC).run();
+        KafkaConsumer.getKafkaConsumer(Constants.getServer() + ":" + Constants.KAFKA_PORT, Constants.KAFKA_TOPIC).run();
         DirectoryListener.getDirectoryListener(Constants.FILE_PATH).run();
-        ActiveMQConsumer.getActiveMqConsumer().run();
+        //ActiveMQConsumer.getActiveMqConsumer(Constants.AMQP_TOPIC, Constants.AMQP_PORT).run();
     }
 }

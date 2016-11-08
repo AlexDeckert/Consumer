@@ -1,5 +1,9 @@
 package consumer;
 
+import converter.JsonConverter;
+import database.DatabaseSender;
+import messages.DirectoryMessage;
+
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
@@ -65,7 +69,9 @@ public class DirectoryListener implements Runnable {
                         BufferedReader data = new BufferedReader(new FileReader(file));
                         String jsonString = data.readLine();
                         while (jsonString != null){
-                            System.out.println(jsonString);
+                            DirectoryMessage message = JsonConverter.getInstance().getDirectoryMessage(jsonString);
+                            //DatabaseSender.getDatabaseSender().insertMessage(message);
+                            System.out.println(message.toString());
                             jsonString = data.readLine();
                         }
                         data.close();

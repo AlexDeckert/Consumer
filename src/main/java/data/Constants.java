@@ -5,8 +5,8 @@ package data;
  */
 
 public class Constants {
-    //Kafka-Adresse
-    public static final String KAFKA_ADDRESS = "192.168.99.100:1001";
+    //Kafka-Port
+    public static final int KAFKA_PORT = 1001;
 
     //Kafka-Topic
     public static final String KAFKA_TOPIC = "prodData";
@@ -23,6 +23,19 @@ public class Constants {
     //Path to ERP file
     public static final String FILE_PATH = "C:\\Users\\nicob\\dockerDir";
 
+    //ActiveMQ-Attributes
+    public static final int AMQP_PORT = 32774;
+    public static final String AMQP_TOPIC = "m_orders";
+
+    //Mongo-DB
+    public static final String MONGO_DB_ADDRESS = "localhost";
+    public static final int MONGO_DB_PORT = 27017;
+    public static final String MONGO_DB_DATABASE = "dummyDb";
+    public static final String MONGO_DB_COLLECTION = "dummyColl";
 
 
+    public static String getServer() {
+        return (System.getProperty("os.name").toLowerCase().matches("(.*)windows(.*)"))
+                ? "192.168.99.100" : "127.0.0.1";
+    }
 }

@@ -1,6 +1,7 @@
 package consumer;
 
 import converter.JsonConverter;
+import database.FileExporter;
 import messages.DirectoryMessage;
 
 import java.io.BufferedReader;
@@ -70,8 +71,9 @@ public class DirectoryListener implements Runnable {
                         while (jsonString != null){
                             DirectoryMessage message = JsonConverter.getInstance().getDirectoryMessage(jsonString);
                             message.setOrderNumber(Consumer.getCURRENT_ORDER_NUMBER());
+                            FileExporter.getInstance().publishExcel();
 //                            DatabaseSender.getDatabaseSender().insertMessage(message);
-                            System.out.println(message.toString());
+//                            System.out.println(message.toString());
                             jsonString = data.readLine();
                         }
                         data.close();

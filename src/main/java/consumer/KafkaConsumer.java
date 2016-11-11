@@ -5,6 +5,7 @@ import converter.JsonConverter;
 import data.Constants;
 
 import database.DatabaseSender;
+import database.FileExporter;
 import kafka.consumer.ConsumerConfig;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
@@ -70,8 +71,9 @@ public class KafkaConsumer implements Runnable {
                     KafkaMessage message = JsonConverter.getInstance().getKafkaMessage(jsonString);
                     message.setValue(message.getValue());
                     message.setOrderNumber(Consumer.getCURRENT_ORDER_NUMBER());
+                    FileExporter.getInstance().addMessageToList(message);
 //                    DatabaseSender.getDatabaseSender().insertMessage(message);
-                    System.out.println(message.toString());
+//                    System.out.println(message.toString());
 //                    FiniteMachine.handleMessage(sm, message);
                 }
             });

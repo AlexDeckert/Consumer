@@ -15,7 +15,7 @@ public class Consumer {
         Thread amqpThread = new Thread(ActiveMQConsumer.getActiveMqConsumer(Constants.AMQP_TOPIC, Constants.AMQP_PORT));
         amqpThread.start();
 
-        Thread kafkaThread = new Thread(KafkaConsumer.getKafkaConsumer(Constants.getServer() + ":" + Constants.KAFKA_PORT, Constants.KAFKA_TOPIC));
+        Thread kafkaThread = new Thread(KafkaConsumer.getKafkaConsumer(Constants.getServer() + ":" + Constants.KAFKA_CONSUMER_PORT, Constants.KAFKA_TOPIC));
         kafkaThread.start();
 
         Thread directoryThread = new Thread(DirectoryListener.getDirectoryListener(Constants.FILE_PATH));

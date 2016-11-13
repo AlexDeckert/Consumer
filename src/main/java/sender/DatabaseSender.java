@@ -1,4 +1,4 @@
-package database;
+package sender;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
@@ -35,16 +35,20 @@ public class DatabaseSender {
     }
 
     public void insertMessage(Message message){
-        String jsonString = JsonConverter.getInstance().toJsonString(message); //convert message to json-String
-        Document document = Document.parse(jsonString); //create a document for the database with the json-String
+        if (Constants.TESTING) {
+            System.out.print(message);
+        } else {
+            String jsonString = JsonConverter.getInstance().toJsonString(message); //convert message to json-String
+            Document document = Document.parse(jsonString); //create a document for the database with the json-String
 
-        //depending on the message, insert into one collection
-        if (message instanceof ActiveMQMessage) {
-            mongoDatabase.getCollection(Constants.MONGO_DB_COLLECTION_AMQP).insertOne(document);
-        } else if (message instanceof DirectoryMessage) {
-            mongoDatabase.getCollection(Constants.MONGO_DB_COLLECTION_DIR).insertOne(document);
-        } else if (message instanceof KafkaMessage) {
-            mongoDatabase.getCollection(Constants.MONGO_DB_COLLECTION_KAFKA).insertOne(document);
+            //depending on the message, insert into one collection
+            if (message instanceof ActiveMQMessage) {
+                mongoDatabase.getCollection(Constants.MONGO_DB_COLLECTION_AMQP).insertOne(document);
+            } else if (message instanceof DirectoryMessage) {
+                mongoDatabase.getCollection(Constants.MONGO_DB_COLLECTION_DIR).insertOne(document);
+            } else if (message instanceof KafkaMessage) {
+                mongoDatabase.getCollection(Constants.MONGO_DB_COLLECTION_KAFKA).insertOne(document);
+            }
         }
     }
 }

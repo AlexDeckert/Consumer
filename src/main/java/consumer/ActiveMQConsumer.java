@@ -5,10 +5,9 @@ import data.Constants;
 
 import javax.jms.*;
 
-import database.DatabaseSender;
-import database.FileExporter;
 import messages.ActiveMQMessage;
 import org.apache.activemq.*;
+import sender.DatabaseSender;
 
 /**
  * Created by nicob on 02.11.2016.
@@ -70,9 +69,7 @@ public class ActiveMQConsumer implements Runnable {
 
                         ActiveMQMessage mqMessage = XmlConverter.getActiveMqMessage(text);
                         Consumer.setCURRENT_ORDER_NUMBER(mqMessage.getOrderNumber());
-                        FileExporter.getInstance().addMessageToList(mqMessage);
-//                        DatabaseSender.getDatabaseSender().insertMessage(mqMessage);
-//                        System.out.println(mqMessage);
+                        DatabaseSender.getDatabaseSender().insertMessage(mqMessage);
                     } else {
                         System.out.println(message);
                     }

@@ -27,7 +27,6 @@ import java.util.concurrent.Executors;
  */
 
 public class KafkaConsumer implements Runnable {
-    //class attributes
     private static KafkaConsumer instance;
     private String topicName;
     private ConsumerConfig consumerConfig;
@@ -57,8 +56,6 @@ public class KafkaConsumer implements Runnable {
     }
 
     public void run() {
-        //System.out.println("Starting the KafkaConsumer...");
-
         ConsumerConnector connector = kafka.consumer.Consumer.createJavaConsumerConnector(consumerConfig);
         Map<String, List<KafkaStream<byte[], byte[]>>> messages = connector.createMessageStreams(ImmutableMap.of(topicName, 1));
         List<KafkaStream<byte[], byte[]>> messageStreams = messages.get(topicName);
@@ -72,11 +69,14 @@ public class KafkaConsumer implements Runnable {
                     message.setValue(message.getValue());
                     message.setOrderNumber(Consumer.getCURRENT_ORDER_NUMBER());
                     KafkaProducer.getInstance().sendMessage(jsonString);
-                    DatabaseSender.getDatabaseSender().insertMessage(message);
+                    if (Constants.TESTING) {
+                        System.out.println(message);
+                    } else {
+                        DatabaseSender.getDatabaseSender().insertMessage(message);
+                    }
 //                    FiniteMachine.handleMessage(sm, message);
                 }
             });
         }
-
     }
 }

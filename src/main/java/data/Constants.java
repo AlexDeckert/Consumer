@@ -19,7 +19,7 @@ public class Constants {
     public static final String PRODUCER_SERIALIZER = "serializer.class";
     public static final String PRODUCER_BROKER_LIST = "metadata.broker.list";
     public static final String PRODUCER_KAFKA_TOPIC = "messageData";
-    public static final int KAFKA_CONSUMER_PORT = 1001;
+    public static final int KAFKA_CONSUMER_PORT = TESTING ? 1001 : 2181;
     public static final String KAFKA_TOPIC = "prodData";
     public static final String BOOTSTRAP_SERVERS = "bootstrap.servers";
     public static final String CONNECT_ZOOKEEPER = "zookeeper.connect";
@@ -30,15 +30,15 @@ public class Constants {
     public static final String PARTITION = "partition.assignment.strategy";
 
     //path to erp file
-    public static final String FILE_PATH = WINDOWS_MACHINE ? "C:\\Users\\nicob\\dockerDir" : "/Data";
+    public static final String FILE_PATH = WINDOWS_MACHINE ? "C:\\Users\\nicob\\dockerDir" : "/Data/";
 
     //activemq attributes
     public static final int AMQP_PORT = WINDOWS_MACHINE ? 32774 : 61616;
     public static final String AMQP_TOPIC = "m_orders";
 
     //mongo-DB attributes
-    public static final String MONGO_DB_ADDRESS = "localhost";
-    public static final int MONGO_DB_PORT = 3001;
+    public static final String MONGO_DB_ADDRESS = TESTING ? "localhost" : "mongodb";
+    public static final int MONGO_DB_PORT = TESTING ? 3001 : 27017;
     public static final String MONGO_DB_DATABASE = "meteor";
     public static final String MONGO_DB_COLLECTION_AMQP = "amqp_collection";
     public static final String MONGO_DB_COLLECTION_DIR = "dir_collection";

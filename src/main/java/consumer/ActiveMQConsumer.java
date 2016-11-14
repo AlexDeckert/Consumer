@@ -15,15 +15,17 @@ import sender.DatabaseSender;
  */
 
 public class ActiveMQConsumer implements Runnable {
-    Session session = null;
-    Connection connection = null;
-    String topicName = "";
+    Session session;
+    Connection connection;
+    String topicName;
 
     private static ActiveMQConsumer instance;
 
+
     private ActiveMQConsumer(String topicName, int port) {
         this.topicName = topicName;
-        String amqpServer = "tcp://" + Constants.getServer() + ":" + port;
+        String amqpServer = Constants.TESTING ? "tcp://" + Constants.getServer() + ":" + port :
+                                "failover:tcp://activemq:" + port;
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(amqpServer);
         try {
             connection = connectionFactory.createConnection();
@@ -67,9 +69,13 @@ public class ActiveMQConsumer implements Runnable {
                             e.printStackTrace();
                         }
 
-                        ActiveMQMessage mqMessage = XmlConverter.getActiveMqMessage(text);
+                        ActiveMQMessage mqMessage = XmlConverter.getInstance().getActiveMqMessage(text);
                         Consumer.setCURRENT_ORDER_NUMBER(mqMessage.getOrderNumber());
-                        DatabaseSender.getDatabaseSender().insertMessage(mqMessage);
+                        if (Constants.TESTING) {
+                            System.out.println(mqMessage);
+                        } else {
+                            DatabaseSender.getDatabaseSender().insertMessage(mqMessage);
+                        }
                     } else {
                         System.out.println(message);
                     }

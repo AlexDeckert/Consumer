@@ -14,7 +14,7 @@ public class Constants {
     public static final boolean WINDOWS_MACHINE = System.getProperty("os.name").toLowerCase().matches("(.*)windows(.*)");
 
     //kafka attributes
-    public static final int KAFKA_PRODUCER_PORT = 1000;
+    public static final int KAFKA_PRODUCER_PORT = TESTING ? 1000 : 9092;
     public static final String PRODUCER_CONNECT_ZOOKEEPER = "zk.connect";
     public static final String PRODUCER_SERIALIZER = "serializer.class";
     public static final String PRODUCER_BROKER_LIST = "metadata.broker.list";
